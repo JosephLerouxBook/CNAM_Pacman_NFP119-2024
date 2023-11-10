@@ -10,3 +10,9 @@ Dans la deuxieme partie vous travaillerez sur un petit jeux executable directeme
 
 Pour travailler sur votre projet, vous devez d’abord installer ocaml dans une version récente (>= 4.08).
 VSCODE semble fonctionner aussi avec le plugin suivant https://github.com/reasonml-editor/vscode-reasonml.
+
+Vous avez jusqu'au 02 juillet à 23:59 pour rendre le projet.
+
+Vous mettrez à l'interieur de cette archive un fichier explicatif de votre projet ainsi que la documentation technique.
+
+Ainsi que votre lien vers le github.
