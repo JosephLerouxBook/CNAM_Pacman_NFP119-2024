@@ -19,7 +19,6 @@ var time = 0;
 // timer variable 
 var chronoTimer = null;
 
-var areWePlayin = false;
 var intervalId;
 // YOUR NAME HERE : Joseph Leroux
 
@@ -30,12 +29,12 @@ document.addEventListener("DOMContentLoaded", function() { //lance le code apres
     buttonOneTarget = document.getElementById("create"); //Cible le bouton crée
     buttonOneTarget.addEventListener('click', onClickButtonOneTarget); //Ajoute un EventListener au bouton crée.
 
-    if (areWePlayin == false) {
-        buttonStart = document.getElementById("start"); //Cible le bouton démarrer
-        buttonStart.addEventListener('click', function(){onClickButtonStart()}); //Ajoute un EventListener au bouton démarrer.   
-    } else {
-        console.log("ERROR : We playin' mate. Chill.")
-    }
+
+    buttonStart = document.getElementById("start"); //Cible le bouton démarrer
+    buttonStart.addEventListener('click', function(){onClickButtonStart()}); //Ajoute un EventListener au bouton démarrer.   
+
+    console.log("ERROR : Partie deja en cours.")
+
 });
 
 
@@ -151,23 +150,22 @@ function onClickButtonStart(){
     var inputvalue = document.getElementById("nbtargets");
     var nbrtarget = inputvalue.value;
     var targetRemaining  = document.getElementById("remaining");
-    
+    targetRemaining.innerHTML = nbrtarget;
+    //Gestion de la rejouabilité : supprime les target si il y en as.
     var target = document.querySelectorAll(".target");
-    if (target.length != 0){
+    if (target.length != 0){ 
         for (var i = 0; i < target.length; i++) {
             target[i].remove();
         }
     }
-    areWePlayin = true;
-    targetRemaining.innerHTML = nbrtarget;
+
     multipleTargetCreator(nbrtarget);
+    //Reinitialise le chronometre
     if(intervalId){
         clearInterval(intervalId);
     }
     time = Date.now();
     intervalId = setInterval(function(){updateTimer(time);}, 10); //update le timer tout les 0,01sec
-    areWePlayin = 0;
-
 }
 
 
