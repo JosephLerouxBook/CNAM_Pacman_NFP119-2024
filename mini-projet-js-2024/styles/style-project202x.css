@@ -47,7 +47,6 @@ body {
 .target.on.hit {
   background-color: rgba(80,80,80,1);  
   opacity : 0;
-  z-index : -1;
 }
 
 

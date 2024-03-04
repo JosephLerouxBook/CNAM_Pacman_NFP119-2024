@@ -31,7 +31,6 @@ document.addEventListener("DOMContentLoaded", function() { //lance le code apres
     buttonOneTarget.addEventListener('click', onClickButtonOneTarget); //Ajoute un EventListener au bouton crée.
 
     if (areWePlayin == false) {
-        time = Date.now();
         buttonStart = document.getElementById("start"); //Cible le bouton démarrer
         buttonStart.addEventListener('click', function(){onClickButtonStart()}); //Ajoute un EventListener au bouton démarrer.   
     } else {
@@ -48,7 +47,7 @@ Gestion d'une cible
 //Fonction gerant le bouton "Une cible" quand cliquer.
 function onClickButtonOneTarget(){
     var target = document.querySelectorAll(".target") //recupere toute les cibles de la page pour verification
-    console.log(target);
+    //console.log(target);
     if (target.length == 0){ //Gestion ne pas afficher + de 1 cible.
         targetCreator(); //crée une cible.
     } else {
@@ -68,14 +67,20 @@ function targetCreator(){
     target.style.left = positionX + "px";
     target.style.top = positionY + "px";
     target.style.opacity = 1;
+    var clicked = false;
 
     zoneDeJeu.appendChild(target);//ajoute la cible a la page.
-    target.addEventListener('click', onClickTarget); //ajoute l'eventListener au la cible crée
+    target.addEventListener('click', function(){ //ajoute l'eventListener au la cible crée
+        onClickTarget();
+        clicked = true;
+    });
     target.addEventListener('mouseenter', function(event) {
         target.classList.add("on");
     });
     target.addEventListener('mouseleave', function(event) {
-        target.classList.remove("on");
+        if (clicked == false){
+            target.classList.remove("on");
+        }
     });
 }
 
@@ -84,14 +89,15 @@ function onClickTarget(){
     var target = document.querySelectorAll(".target");
     if (target.length != 0){
         for (var i = 0; i < target.length; i++) {
-            target[i].setAttribute('class', 'target.on.hit'); //target[i].style.opacity=0; si on veut garder l'effet fondu. Mettre le OnHit le fait passer offscreen direct, c'est moche.
-            removeElementWithDelay(target[i], 700); 
+            //target[i].setAttribute('class', 'target on hit'); 
+            removeElementWithDelay(target[i], 300); //le z-index de .target.on.hit fait rien, on vas pas y toucher... 
         }
     }
 }
 
 //Fonction permettant d'attendre le $delay avant de remove l'element. (utiliser pour le onClickTarget)
 function removeElementWithDelay(element, delay) {
+    element.setAttribute('class', 'target on hit');
     setTimeout(() => {
         element.remove();
     }, delay);
@@ -104,14 +110,14 @@ Gestion du temps
 
 \*            */
 //Fonction mettant a jour le timer
-function updateTimer(buttontime){
+function updateTimer(buttonTime){
     currentTime = Date.now() //recupere le temps en milisec maintenant
-    chronoTimer = currentTime - buttontime;  //fait la difference entre le temps initial et le temps recup a l'instant pour avoir le temps durant lequel le chronometre a fonctionner
+    chronoTimer = currentTime - buttonTime;  //fait la difference entre le temps initial et le temps recup a l'instant pour avoir le temps durant lequel le chronometre a fonctionner
     //converti les valeurs en Int arrondis.
     var totalSeconds = Math.floor(chronoTimer / 1000);
     var minutes = Math.floor(totalSeconds / 60);
-    var milisecond = Math.floor((chronoTimer % 1000) / 10);
-    //var tenth = Math.floor(chronoTimer / 100)   =>Useless
+    var milisecond = Math.floor((chronoTimer % 1000) / 10);// =>Useless
+    var tenth = Math.floor((chronoTimer % 1000)/100)  
 
     //Ajoute les 0 manquant : 
     totalSeconds = totalSeconds < 10 ? '0'+totalSeconds : totalSeconds;
@@ -120,18 +126,19 @@ function updateTimer(buttontime){
     //rempli les span associé.
     document.getElementById("minutes").textContent = minutes;
     document.getElementById("seconds").textContent = totalSeconds;
-    document.getElementById("tenth").textContent = milisecond;
+    document.getElementById("tenth").textContent = tenth;
 }
 
 
 //arrete le jeu et le timer.
 function stopTimer(){
+    //console.log(intervalId);
     clearInterval(intervalId);
     var minute = document.getElementById("minutes").textContent;
     var seconds = document.getElementById("seconds").textContent;
     var tenth = document.getElementById("tenth").textContent;
     var finalTime = minute + "' " + seconds + "'' " + tenth;
-    var winnerSentence = "Vous avez gagnez ! vous avez detruit toute les cibles (ouai, je peux pas vous dire combien de cible vue que ce ne sont pas des variables globales 👍) "+minute+"min "+seconds+ "sec " + tenth+"dizaine";
+    var winnerSentence = "Vous avez gagnez ! vous avez detruit toute les cibles en \n "+minute+"min "+seconds+ "sec " + tenth+"dizaine";
     alert (winnerSentence);
 }
 
@@ -145,16 +152,21 @@ function onClickButtonStart(){
     var nbrtarget = inputvalue.value;
     var targetRemaining  = document.getElementById("remaining");
     
-    if (areWePlayin==false){
-        areWePlayin = true;
-        targetRemaining.innerHTML = nbrtarget;
-        multipleTargetCreator(nbrtarget);
-        var buttontime = Date.now();
-        intervalId = setInterval(function(){updateTimer(buttontime)}, 10); //update le timer tout les 0,01sec
-        areWePlayin = 0;
-    }else {
-        console.log("ERROR : Fok of mate, we are playin here")
+    var target = document.querySelectorAll(".target");
+    if (target.length != 0){
+        for (var i = 0; i < target.length; i++) {
+            target[i].remove();
+        }
     }
+    areWePlayin = true;
+    targetRemaining.innerHTML = nbrtarget;
+    multipleTargetCreator(nbrtarget);
+    if(intervalId){
+        clearInterval(intervalId);
+    }
+    time = Date.now();
+    intervalId = setInterval(function(){updateTimer(time);}, 10); //update le timer tout les 0,01sec
+    areWePlayin = 0;
 
 }
 
@@ -163,6 +175,7 @@ function multipleTargetCreator(nbrtarget){
     var zoneDeJeu = document.getElementById("terrain");
     var i = 1;
     while(nbrtarget != 0){
+
         var target = document.createElement("div"); 
         target.setAttribute('class', "target");//vue dans le CSS : target = class
         var targetId = "target" + i;
@@ -178,15 +191,30 @@ function multipleTargetCreator(nbrtarget){
         target.style.opacity = 1;
     
         zoneDeJeu.appendChild(target);//ajoute la cible a la page.
-        zoneDeJeu.addEventListener('click', function(event){
+        target.addEventListener('click', function(event){
             if (event.target.classList.contains("target")) {
                 var cibleClique = event.target;
-                cibleClique.setAttribute('class', 'target.on.hit'); //target[i].style.opacity=0; si on veut garder l'effet fondu. Mettre le OnHit le fait passer offscreen direct, c'est moche.
-                targetRemaining.innerHTML = targetRemaining.innerHTML -1 ;
-                removeElementWithDelay(cibleClique, 700);
+                //cibleClique.setAttribute('class', 'target on hit'); //target.on.hit fait disparaitre les div trop vite pour qu'on vois le changement de couleur.
+                if (!event.target.classList.contains("hit")) {
+                    targetRemaining.innerHTML = targetRemaining.innerHTML -1 ;
+                }
+                removeElementWithDelay(cibleClique, 300);
+                console.log(targetRemaining.innerHTML);
                 if (targetRemaining.innerHTML == 0){
                     stopTimer();
                 }
+            }
+        }); 
+        target.addEventListener('mouseenter', function(event){
+            if (event.target.classList.contains("target")) {
+                var cibleClique = event.target;
+                cibleClique.classList.add("on");
+            }
+        }); 
+        target.addEventListener('mouseleave', function(event){
+            if (event.target.classList.contains("target")) {
+                var cibleClique = event.target;
+                cibleClique.classList.remove("on");
             }
         }); 
         nbrtarget--;
