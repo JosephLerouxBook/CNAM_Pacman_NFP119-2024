@@ -49,6 +49,7 @@ function onClickButtonOneTarget(){
 
 //Fonction de creation des cibles
 function targetCreator(){
+    console.log("ici?");
     var zoneDeJeu = document.getElementById("terrain"); //cible la zone de jeu
     var target = document.createElement("div");  //crée un element de type div
     var positionX = Math.random() * (zoneDeJeu.offsetWidth - 30);//generation aléatoire de la position X /!\ 30 = diametre de la cible
@@ -58,7 +59,7 @@ function targetCreator(){
     target.style.left = positionX + "px"; //ajout des position X generer aléatoirement plus haut.
     target.style.top = positionY + "px"; //ajout des position Y generer aléatoirement plus haut.
     target.setAttribute('class', "target");//ajoute a la div l'attribut class="target"
-
+    target.style.opacity = 1; //ajoute de l'opacité a la cible (Pourquoi .target as opacity = 0 && .target.on.hit aussi????????????)
     zoneDeJeu.appendChild(target);//ajoute la cible a la page.
 
     //Application des evenements a la cible crée 
@@ -158,54 +159,53 @@ function onClickButtonStart(){
 
 
 function multipleTargetCreator(nbrtarget){
-    var zoneDeJeu = document.getElementById("terrain");
-    var i = 1;
-    while(nbrtarget != 0){
-        var target = document.createElement("div"); 
-        target.setAttribute('class', "target");//vue dans le CSS : target = class
-        var targetId = "target" + i;
-        target.setAttribute('id', targetId);
-        targetRemaining = document.getElementById("remaining");
-        
-        var positionX = Math.random() * (zoneDeJeu.offsetWidth - 30);//generation aléatoire de la position X /!\ 30 = diametre de la cible
-        var positionY = Math.random() * (zoneDeJeu.offsetHeight - 30);//generation aléatoire de la position X /!\ 30 = diametre de la cible
-    
+    var zoneDeJeu = document.getElementById("terrain"); //Cible le terrain
+    var i = 1; //Index pour les div des cibles
+    while(nbrtarget != 0){ //tourne tant que le nombre rentrer par l'utilisateur n'atteind pas 0
+        var target = document.createElement("div");  //création de la div de cible
+        var targetId = "target" + i; // Création de l'id de la cible
+        var positionX = Math.random() * (zoneDeJeu.offsetWidth - 30);//generation aléatoire de la position X /!\ 30 = diametre de la cible, pas 40
+        var positionY = Math.random() * (zoneDeJeu.offsetHeight - 30);//generation aléatoire de la position X /!\ 30 = diametre de la cible, pas 40
+        var targetRemaining = document.getElementById("remaining"); //recuperation du nombre de cible restante sur le terrain pour Evenement onclick
+
+        //ajout attributs a la cible
+        target.setAttribute('class', "target"); //Ajoute l'attribut class="target" a la cible
+        target.setAttribute('id', targetId);    //Ajoute l'id de la cible generer plus haut.
+
         //Modifie les attributs css de la cible.
-        target.style.left = positionX + "px";
-        target.style.top = positionY + "px";
-        target.style.opacity = 1;
+        target.style.left = positionX + "px"; //applique la position X generer aléatoirement plus haut
+        target.style.top = positionY + "px"; //applique la position Y generer aléatoirement plus haut
+        target.style.opacity = 1; //ajoute de l'opacité a la cible (Pourquoi .target as opacity = 0 && .target.on.hit aussi????????????)
     
         zoneDeJeu.appendChild(target);//ajoute la cible a la page.
 
-        target.addEventListener('click', function(event){
-            if (event.target.classList.contains("target")) {
+        //Application des evenements aux cible crée
+        target.addEventListener('click', function(event){ //evenement Onclick
+            if (event.target.classList.contains("target")) { //verifie que le clique a eu lieu sur un element contenant "target" 
                 var cibleClique = event.target;
-                //cibleClique.setAttribute('class', 'target on hit'); //target.on.hit fait disparaitre les div trop vite pour qu'on vois le changement de couleur.
-                if (!event.target.classList.contains("hit")) {
-                    targetRemaining.innerHTML = targetRemaining.innerHTML -1 ;
+                if (!event.target.classList.contains("hit")) { //verifie que la cible n'ai pas deja été toucher. (etant donner qu'on lui ajoute "on hit" dans removeElementWithDelay())
+                    targetRemaining.innerHTML = targetRemaining.innerHTML -1 ; //decrémente "cible restante"
                 }
-                removeElementWithDelay(cibleClique, 300);
-                console.log(targetRemaining.innerHTML);
-                if (targetRemaining.innerHTML == 0){
-                    stopTimer();
-                    win();
+                if (targetRemaining.innerHTML == 0){ //verifie si le joueur a detruit toute les cibles
+                    win(); //Lance la séquence de victoire
                 }
+                removeElementWithDelay(cibleClique, 300); // lance la fonction enlevant la cible de la page.
             }
         }); 
-        target.addEventListener('mouseenter', function(event){
-            if (event.target.classList.contains("target")) {
-                var cibleClique = event.target;
-                cibleClique.classList.add("on");
+        target.addEventListener('mouseenter', function(event){ // Verifie l'evenement ou la souris rentre sur la cible
+            if (event.target.classList.contains("target")) { // Verifie que l'endroit ou est rentrer la souris est bien une "target" 
+                var cibleClique = event.target; //stock la cible concerner a l'instant
+                cibleClique.classList.add("on"); // Ajoute le "on" de "target on"
             }
         }); 
-        target.addEventListener('mouseleave', function(event){
-            if (event.target.classList.contains("target")) {
-                var cibleClique = event.target;
-                cibleClique.classList.remove("on");
+        target.addEventListener('mouseleave', function(event){ // verifie l'evenement ou la souris sort de la cible
+            if (event.target.classList.contains("target")) { // Verifie que l'endroit d'ou etais sorti la souris est bien une "target"
+                var cibleClique = event.target; //stock la cible concerner a l'instant
+                cibleClique.classList.remove("on"); //retire le "on" de "target on"
             }
         }); 
-        nbrtarget--;
-        i++;
+        nbrtarget--; //Decremente la condition de boucle (input de l'utilisateur)
+        i++; //Increment l'index des id des cibles
     }
     
 }
@@ -219,10 +219,10 @@ Autres
 \*  */ 
 
 function win(){
-    var minute = document.getElementById("minutes").textContent;
-    var seconds = document.getElementById("seconds").textContent;
-    var tenth = document.getElementById("tenth").textContent;
-    var finalTime = minute + "' " + seconds + "'' " + tenth;
-    var winnerSentence = "Vous avez gagnez ! vous avez detruit toute les cibles en \n "+minute+"min "+seconds+ "sec " + tenth+"dizaine";
-    alert(winnerSentence);
+    var minute = document.getElementById("minutes").textContent; //recupere les minutes
+    var seconds = document.getElementById("seconds").textContent; //recupere les seconds
+    var tenth = document.getElementById("tenth").textContent; //recupere les dixiemes
+    var winnerSentence = "Vous avez gagnez ! vous avez detruit toute les cibles en \n "+minute+"min "+seconds+ "sec " + tenth+"dizaine"; //création d'une phrase de victoire
+    stopTimer(); //Arretes le timer
+    alert(winnerSentence); //lance le message alert avec la phrase de victoire
 }
