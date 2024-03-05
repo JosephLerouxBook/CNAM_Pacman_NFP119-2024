@@ -10,7 +10,7 @@ Nous allons passer ici en revu les differentes fonction de façon général (le 
 Partie du code se lançant apres le chargement COMPLET de l'html. Sinon les recuperation d'éléments ne fonctionnes pas correctement.
 
 ### Gestion de l'entrainement avec 1 cible
-onClickButtonOneTarget();<br>
+<ins>onClickButtonOneTarget();</ins><br>
 Fonction de gestion du bouton "Une cible". Elle n'as pour but uniquement de verifier si il existe d'autre cible sur le terrain et evidemment, lance la fonction targetCreator();<br>
 
 targetCreator();
