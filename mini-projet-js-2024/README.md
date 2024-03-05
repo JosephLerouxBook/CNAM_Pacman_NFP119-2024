@@ -48,7 +48,7 @@ Recupere l'ID de l'interval de temps crée lors de l'appuie du boutton demarrer 
 ### Autres fonctions
 
 <ins>win();</ins><br>
-Fonction lançant les resultat de la partie suite a la victoire. <br>
+Fonction lançant les resultat de la partie suite a la victoire.<br>
 Affiche un message a l'utilisateur avec son temps.
 
 

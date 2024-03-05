@@ -20,11 +20,11 @@ var intervalId; //necessaire a la gestion du chronomètre
 
 // YOUR CODE BELOW
 
+
 //main
 document.addEventListener("DOMContentLoaded", function() { //lance le code apres le chargement de la page, sinon rien.
     buttonOneTarget = document.getElementById("create"); //Cible le bouton "create"
     buttonOneTarget.addEventListener('click', onClickButtonOneTarget); //Ajoute un EventListener onclick au bouton "create".
-
     buttonStart = document.getElementById("start"); //Cible le bouton "start"
     buttonStart.addEventListener('click', function(){onClickButtonStart()}); //Ajoute un EventListener onclick au bouton "start".   
 });
@@ -51,11 +51,9 @@ function onClickButtonOneTarget(){
 function targetCreator(){
     var zoneDeJeu = document.getElementById("terrain"); //cible la zone de jeu
     var target = document.createElement("div");  //crée un element de type div
-    
     var positionX = Math.random() * (zoneDeJeu.offsetWidth - 30);//generation aléatoire de la position X /!\ 30 = diametre de la cible
     var positionY = Math.random() * (zoneDeJeu.offsetHeight - 30);//generation aléatoire de la position X /!\ 30 = diametre de la cible
 
-    
     //Modifie les attributs css de la cible.
     target.style.left = positionX + "px"; //ajout des position X generer aléatoirement plus haut.
     target.style.top = positionY + "px"; //ajout des position Y generer aléatoirement plus haut.
@@ -73,6 +71,7 @@ function targetCreator(){
     });
 }
 
+
 //Fonction faisant disparaitre la cible une fois cliquer.
 function onClickTarget(){
     var target = document.querySelectorAll(".target");
@@ -83,6 +82,7 @@ function onClickTarget(){
         }
     }
 }
+
 
 //Fonction permettant d'attendre le $delay avant de remove l'element. (utiliser pour le onClickTarget)
 function removeElementWithDelay(element, delay) {
@@ -99,6 +99,7 @@ function removeElementWithDelay(element, delay) {
 Gestion du temps
 
 \*            */
+
 //Fonction mettant a jour le timer
 function updateTimer(buttonTime){
     currentTime = Date.now() //recupere le temps en milisec maintenant
@@ -118,6 +119,7 @@ function updateTimer(buttonTime){
     document.getElementById("seconds").textContent = totalSeconds;
     document.getElementById("tenth").textContent = tenth;
 }
+
 
 //arrete le jeu et le timer.
 function stopTimer(){
@@ -144,11 +146,14 @@ function onClickButtonStart(){
             target[i].remove();
         }
     }
+
+    //Gestion du temps 
     if(intervalId){stopTimer();} // Arrete le chronometre si il est en cours
     time = Date.now(); //recupere la date actuelle
     intervalId = setInterval(function(){updateTimer(time);}, 10); //update le timer tout les 0,01sec
-
-    multipleTargetCreator(nbrtarget); //création des cibles
+    
+    //Lancement de la création des cibles
+    multipleTargetCreator(nbrtarget); 
 }
 
 
@@ -156,7 +161,6 @@ function multipleTargetCreator(nbrtarget){
     var zoneDeJeu = document.getElementById("terrain");
     var i = 1;
     while(nbrtarget != 0){
-
         var target = document.createElement("div"); 
         target.setAttribute('class', "target");//vue dans le CSS : target = class
         var targetId = "target" + i;
@@ -172,6 +176,7 @@ function multipleTargetCreator(nbrtarget){
         target.style.opacity = 1;
     
         zoneDeJeu.appendChild(target);//ajoute la cible a la page.
+
         target.addEventListener('click', function(event){
             if (event.target.classList.contains("target")) {
                 var cibleClique = event.target;
@@ -206,11 +211,13 @@ function multipleTargetCreator(nbrtarget){
 }
 
 
+
 /*  *\
 
 Autres
 
 \*  */ 
+
 function win(){
     var minute = document.getElementById("minutes").textContent;
     var seconds = document.getElementById("seconds").textContent;
