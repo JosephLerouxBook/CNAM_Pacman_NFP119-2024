@@ -3,11 +3,9 @@
     fonctionnalitées et des descriptions de fonction.
     Voir le CR.pdf pour une description du projet, des bugs rencontrer etc...
 */
-
-
 // global variable for the project
 
-// default initial width and heigth for the target  <=== faux, le css annonce 30px (L31), j'ai loupé un truc ici
+// default initial width and heigth for the target  <=== faux, le css annonce 30px (L31), surement utile pour les bonus
 var TARGET_WIDTH = 40;
 var TARGET_HEIGHT = 40;
 
@@ -24,16 +22,13 @@ var intervalId; //necessaire a la gestion du chronomètre
 
 //main
 document.addEventListener("DOMContentLoaded", function() { //lance le code apres le chargement de la page, sinon rien.
-    buttonOneTarget = document.getElementById("create"); //Cible le bouton crée
-    buttonOneTarget.addEventListener('click', onClickButtonOneTarget); //Ajoute un EventListener au bouton crée.
+    buttonOneTarget = document.getElementById("create"); //Cible le bouton "create"
+    buttonOneTarget.addEventListener('click', onClickButtonOneTarget); //Ajoute un EventListener onclick au bouton "create".
 
-
-    buttonStart = document.getElementById("start"); //Cible le bouton démarrer
-    buttonStart.addEventListener('click', function(){onClickButtonStart()}); //Ajoute un EventListener au bouton démarrer.   
-
-    console.log("ERROR : Partie deja en cours.")
-
+    buttonStart = document.getElementById("start"); //Cible le bouton "start"
+    buttonStart.addEventListener('click', function(){onClickButtonStart()}); //Ajoute un EventListener onclick au bouton "start".   
 });
+
 
 
 /*               *\
@@ -41,43 +36,40 @@ document.addEventListener("DOMContentLoaded", function() { //lance le code apres
 Gestion d'une cible 
 
 \*               */
+
 //Fonction gerant le bouton "Une cible" quand cliquer.
 function onClickButtonOneTarget(){
     var target = document.querySelectorAll(".target") //recupere toute les cibles de la page pour verification
-    //console.log(target);
     if (target.length == 0){ //Gestion ne pas afficher + de 1 cible.
-        targetCreator(); //crée une cible.
+        targetCreator(); //lance la création d'une cible.
     } else {
-        console.log("ERROR : 1 seul cible a la fois."); //message d'erreur dans la console.
+        console.log("ERROR : 1 seul cible a la fois."); //message d'erreur dans la console lorsque plus de 1 cible
     }
 }
 
 //Fonction de creation des cibles
 function targetCreator(){
-    var zoneDeJeu = document.getElementById("terrain");
-    var target = document.createElement("div"); 
+    var zoneDeJeu = document.getElementById("terrain"); //cible la zone de jeu
+    var target = document.createElement("div");  //crée un element de type div
+    
     var positionX = Math.random() * (zoneDeJeu.offsetWidth - 30);//generation aléatoire de la position X /!\ 30 = diametre de la cible
     var positionY = Math.random() * (zoneDeJeu.offsetHeight - 30);//generation aléatoire de la position X /!\ 30 = diametre de la cible
 
-    target.setAttribute('class', "target");//vue dans le CSS : targer = class
+    
     //Modifie les attributs css de la cible.
-    target.style.left = positionX + "px";
-    target.style.top = positionY + "px";
-    target.style.opacity = 1;
-    var clicked = false;
+    target.style.left = positionX + "px"; //ajout des position X generer aléatoirement plus haut.
+    target.style.top = positionY + "px"; //ajout des position Y generer aléatoirement plus haut.
+    target.setAttribute('class', "target");//ajoute a la div l'attribut class="target"
 
     zoneDeJeu.appendChild(target);//ajoute la cible a la page.
-    target.addEventListener('click', function(){ //ajoute l'eventListener au la cible crée
-        onClickTarget();
-        clicked = true;
+
+    //Application des evenements a la cible crée 
+    target.addEventListener('click', onClickTarget);//ecoute sur l'eventListener onclick de la cible : lance onClickTarget()
+    target.addEventListener('mouseenter', function(event) { //Ecoute l'evenement mouseenter
+        target.classList.add("on"); //et ajoute "on" a la classe pour quelle devienne "target on"
     });
-    target.addEventListener('mouseenter', function(event) {
-        target.classList.add("on");
-    });
-    target.addEventListener('mouseleave', function(event) {
-        if (clicked == false){
-            target.classList.remove("on");
-        }
+    target.addEventListener('mouseleave', function(event) {//Ecoute l'evenement mouseleave 
+        target.classList.remove("on"); //et retire "on" a la classe pour quelle redevienne "target"
     });
 }
 
@@ -94,11 +86,12 @@ function onClickTarget(){
 
 //Fonction permettant d'attendre le $delay avant de remove l'element. (utiliser pour le onClickTarget)
 function removeElementWithDelay(element, delay) {
-    element.setAttribute('class', 'target on hit');
-    setTimeout(() => {
-        element.remove();
+    element.setAttribute('class', 'target on hit'); //Change la classe de l'element passer (la cible) en "target on hit"
+    setTimeout(() => { //Ajoute un delais avant de lancer le contenu
+        element.remove(); //Supprime l'element (la cible) apres la fin du setTimeout.
     }, delay);
 }
+
 
 
 /*            *\
@@ -113,7 +106,7 @@ function updateTimer(buttonTime){
     //converti les valeurs en Int arrondis.
     var totalSeconds = Math.floor(chronoTimer / 1000);
     var minutes = Math.floor(totalSeconds / 60);
-    var milisecond = Math.floor((chronoTimer % 1000) / 10);// =>Useless
+    var milisecond = Math.floor((chronoTimer % 1000) / 10); // =>Useless
     var tenth = Math.floor((chronoTimer % 1000)/100)  
 
     //Ajoute les 0 manquant : 
@@ -126,12 +119,11 @@ function updateTimer(buttonTime){
     document.getElementById("tenth").textContent = tenth;
 }
 
-
 //arrete le jeu et le timer.
 function stopTimer(){
-    //console.log(intervalId);
     clearInterval(intervalId);
 }
+
 
 
 /*                                                   *\
@@ -140,10 +132,11 @@ Gestion des cibles multiples apres cliquer sur demarrer
 
 \*                                                   */ 
 function onClickButtonStart(){
-    var inputvalue = document.getElementById("nbtargets");
-    var nbrtarget = inputvalue.value;
-    var targetRemaining  = document.getElementById("remaining");
-    targetRemaining.innerHTML = nbrtarget;
+    var inputvalue = document.getElementById("nbtargets"); //Cible la partie <input> de l'utilisateur
+    var nbrtarget = inputvalue.value; //Recupere la valeur entree par l'utilisateur et la stocke  dans nbrtarget
+    var targetRemaining  = document.getElementById("remaining"); //Cible la partie "cible restante" de la page
+    targetRemaining.innerHTML = nbrtarget; //Remplis la partie "cible restante" avec la valeur de l'input
+
     //Gestion de la rejouabilité : supprime les target si il y en as.
     var target = document.querySelectorAll(".target");
     if (target.length != 0){ 
@@ -151,14 +144,11 @@ function onClickButtonStart(){
             target[i].remove();
         }
     }
-
-    multipleTargetCreator(nbrtarget);
-    //Reinitialise le chronometre
-    if(intervalId){
-        clearInterval(intervalId);
-    }
-    time = Date.now();
+    if(intervalId){stopTimer();} // Arrete le chronometre si il est en cours
+    time = Date.now(); //recupere la date actuelle
     intervalId = setInterval(function(){updateTimer(time);}, 10); //update le timer tout les 0,01sec
+
+    multipleTargetCreator(nbrtarget); //création des cibles
 }
 
 
@@ -227,5 +217,5 @@ function win(){
     var tenth = document.getElementById("tenth").textContent;
     var finalTime = minute + "' " + seconds + "'' " + tenth;
     var winnerSentence = "Vous avez gagnez ! vous avez detruit toute les cibles en \n "+minute+"min "+seconds+ "sec " + tenth+"dizaine";
-    alert (winnerSentence);
+    alert(winnerSentence);
 }

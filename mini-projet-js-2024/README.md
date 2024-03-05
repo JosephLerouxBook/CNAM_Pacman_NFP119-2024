@@ -52,7 +52,7 @@ Fonction lançant les resultat de la partie suite a la victoire. <br>
 Affiche un message a l'utilisateur avec son temps.
 
 
-## Fonctions 
+## Bugs rencontrés
 -	Les dizieme de seconde été enfait les milieme, ce qui affichais constamment 2 digit au compteur. <br>
 -   Les 0 n’était pas ajouter au compteur devant les chiffre des nombres inferieur a 10.<br>
 -	Target on hit ne s’applique pas correctement <br>
