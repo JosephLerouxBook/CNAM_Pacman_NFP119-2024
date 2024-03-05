@@ -1,9 +1,7 @@
-/* si vous comprenez mon code, c'est super, 
-aumoin l'un d'entre nous le comprend.
-
-Voir le readme.md pour une description complete des differentes 
-fonctionnalitées et des descriptions de fonction.
-
+/* 
+    Voir le readme.md pour une description complete des differentes 
+    fonctionnalitées et des descriptions de fonction.
+    Voir le CR.pdf pour une description du projet, des bugs rencontrer etc...
 */
 
 
@@ -18,8 +16,8 @@ var TARGET_HEIGHT = 40;
 var time = 0;
 // timer variable 
 var chronoTimer = null;
+var intervalId; //necessaire a la gestion du chronomètre
 
-var intervalId;
 // YOUR NAME HERE : Joseph Leroux
 
 // YOUR CODE BELOW
@@ -133,13 +131,8 @@ function updateTimer(buttonTime){
 function stopTimer(){
     //console.log(intervalId);
     clearInterval(intervalId);
-    var minute = document.getElementById("minutes").textContent;
-    var seconds = document.getElementById("seconds").textContent;
-    var tenth = document.getElementById("tenth").textContent;
-    var finalTime = minute + "' " + seconds + "'' " + tenth;
-    var winnerSentence = "Vous avez gagnez ! vous avez detruit toute les cibles en \n "+minute+"min "+seconds+ "sec " + tenth+"dizaine";
-    alert (winnerSentence);
 }
+
 
 /*                                                   *\
 
@@ -200,6 +193,7 @@ function multipleTargetCreator(nbrtarget){
                 console.log(targetRemaining.innerHTML);
                 if (targetRemaining.innerHTML == 0){
                     stopTimer();
+                    win();
                 }
             }
         }); 
@@ -221,3 +215,17 @@ function multipleTargetCreator(nbrtarget){
     
 }
 
+
+/*  *\
+
+Autres
+
+\*  */ 
+function win(){
+    var minute = document.getElementById("minutes").textContent;
+    var seconds = document.getElementById("seconds").textContent;
+    var tenth = document.getElementById("tenth").textContent;
+    var finalTime = minute + "' " + seconds + "'' " + tenth;
+    var winnerSentence = "Vous avez gagnez ! vous avez detruit toute les cibles en \n "+minute+"min "+seconds+ "sec " + tenth+"dizaine";
+    alert (winnerSentence);
+}
