@@ -56,7 +56,7 @@ Affiche un message a l'utilisateur avec son temps.
 -	Les dizieme de seconde été enfait les milieme, ce qui affichais constamment 2 digit au compteur. <br>
 -   Les 0 n’était pas ajouter au compteur devant les chiffre des nombres inferieur a 10.<br>
 -	Target on hit ne s’applique pas correctement <br>
- -	La modification par le css est instantannée, passant le z-index en meme temps que l’opacity=0. De ce fait, la cible n’est pas degrader vers la couleur  du background color de target on hit. <br>
+    -	La modification par le css est instantannée, passant le z-index en meme temps que l’opacity=0. De ce fait, la cible n’est pas degrader vers la couleur  du background color de target on hit. <br>
 -	Chronometre qui deconne si on appuis sur le bouton demarrer a la suite. <br>
 -	Impossible de relancer le jeu si la parti est en cours<br>
 -	Multi clique sur une seul cible.<br>
