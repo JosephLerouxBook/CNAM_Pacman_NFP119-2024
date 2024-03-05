@@ -1,7 +1,8 @@
 # Partie JS
 ## Introduction
-Afin de finaliser cette partie de mon cursus, il nous as été demander de réaliser un petit jeu type "Ball trap" ou "Aim booster". Le but est simple : un terrain, des cibles qui se genere sur ce terrain, il faut cliquer sur les cibles afin de finir le jeu. <br>
+Afin de finaliser cette partie de mon cursus, il nous as été demander de réaliser un petit jeu type "Ball trap" ou "Aim booster". <br>Le but est simple : un terrain, des cibles qui se genere sur ce terrain, il faut cliquer sur les cibles afin de finir le jeu. <br>
 Nous allons passer ici en revu les differentes fonction de façon général (le detail ligne par ligne etant directement dans le code).<br>
+__A savoir__ Un compte rendu du projet est disponible dans le fichier CR.pdf.<br> C'est la bas que vous trouverez un detail des etapes du projets, des phases réaliser et des bugs rencontrer.
 
 ## Fonctions 
 
@@ -50,3 +51,13 @@ Recupere l'ID de l'interval de temps crée lors de l'appuie du boutton demarrer 
 Fonction lançant les resultat de la partie suite a la victoire. <br>
 Affiche un message a l'utilisateur avec son temps.
 
+
+## Fonctions 
+-	Les dizieme de seconde été enfait les milieme, ce qui affichais constamment 2 digit au compteur. <br>
+-   Les 0 n’était pas ajouter au compteur devant les chiffre des nombres inferieur a 10.<br>
+-	Target on hit ne s’applique pas correctement <br>
+ -	La modification par le css est instantannée, passant le z-index en meme temps que l’opacity=0. De ce fait, la cible n’est pas degrader vers la couleur  du background color de target on hit. <br>
+-	Chronometre qui deconne si on appuis sur le bouton demarrer a la suite. <br>
+-	Impossible de relancer le jeu si la parti est en cours<br>
+-	Multi clique sur une seul cible.<br>
+-	Le css ne s’applique pas en id mais en classe. <br>
