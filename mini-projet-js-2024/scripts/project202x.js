@@ -26,7 +26,10 @@ document.addEventListener("DOMContentLoaded", function() { //lance le code apres
     buttonOneTarget = document.getElementById("create"); //Cible le bouton "create"
     buttonOneTarget.addEventListener('click', onClickButtonOneTarget); //Ajoute un EventListener onclick au bouton "create".
     buttonStart = document.getElementById("start"); //Cible le bouton "start"
-    buttonStart.addEventListener('click', function(){onClickButtonStart()}); //Ajoute un EventListener onclick au bouton "start".   
+    buttonStart.addEventListener('click', function(){onClickButtonStart()}); //Ajoute un EventListener onclick au bouton "start".  
+    
+    WinAlertBoxCreator();
+    ErrAlertBoxCreator("","", "none");
 });
 
 
@@ -137,6 +140,10 @@ Gestion des cibles multiples apres cliquer sur demarrer
 function onClickButtonStart(){
     var inputvalue = document.getElementById("nbtargets"); //Cible la partie <input> de l'utilisateur
     var nbrtarget = inputvalue.value; //Recupere la valeur entree par l'utilisateur et la stocke  dans nbrtarget
+    if (nbrtarget == 0){
+        ErrAlertBoxCreator('Attention !', 'Le nombre de cible ne peut pas etre égale a 0... ', '')
+        return;
+    }
     var targetRemaining  = document.getElementById("remaining"); //Cible la partie "cible restante" de la page
     targetRemaining.innerHTML = nbrtarget; //Remplis la partie "cible restante" avec la valeur de l'input
 
@@ -212,6 +219,7 @@ function multipleTargetCreator(nbrtarget){
 
 
 
+
 /*  *\
 
 Autres
@@ -224,5 +232,49 @@ function win(){
     var tenth = document.getElementById("tenth").textContent; //recupere les dixiemes
     var winnerSentence = "Vous avez gagnez ! vous avez detruit toute les cibles en \n "+minute+"min "+seconds+ "sec " + tenth+"dizaine"; //création d'une phrase de victoire
     stopTimer(); //Arretes le timer
-    alert(winnerSentence); //lance le message alert avec la phrase de victoire
+   //alert(winnerSentence); //lance le message alert avec la phrase de victoire
+   document.getElementById("AlertMinute").innerHTML = minute;
+   document.getElementById("AlertSecond").innerHTML = seconds;
+   document.getElementById("AlertTenth").innerHTML = tenth;
+    showMyAlert(1);
+}
+
+//MyAlerts
+function WinAlertBoxCreator(){
+    var alertbox = document.createElement('div');
+    alertbox.innerHTML = '<h2 id="alertHeader">Bravo !</h2><p id="alertMessage">Vous avez gagner en : <span id="AlertMinute"></span>\' <span id="AlertSecond"></span>\'\' <span id="AlertTenth"></span> !<br>Félicitation !</p><button onclick="closeMyAlert()" id="alertButton">Fermer</button>';
+    alertbox.id = 'WinningAlertBox'
+    alertbox.className = 'myAlertBox';
+    alertbox.style.display = 'none';
+    document.body.appendChild(alertbox);
+}
+
+function ErrAlertBoxCreator(header, msg, displaystate){
+    var alertbox = document.createElement('div');
+    alertbox.innerHTML = '<h2 id="alertHeaderErr">'+header+'</h2><p id="alertMessageErr">'+msg+'</p><button onclick="closeMyAlert()" id="alertButtonErr">J\'ai compris</button>';
+    alertbox.id = 'ErrAlertBox'
+    alertbox.className = 'myAlertBox';
+    alertbox.style.display = displaystate;
+    document.body.appendChild(alertbox);
+}
+
+
+//affiche l'alerte
+function showMyAlert(nbr) {
+    if (nbr == 1){ 
+        var elements = document.getElementById('WinningAlertBox');
+        elements.style.display = '';
+    }
+    if (nbr == 2){
+        var elements = document.getElementById('ErrAlertBox');
+        elements.style.display = '';
+    }
+}
+
+//Cache l'alert
+function closeMyAlert() {
+    var elements = document.getElementsByClassName('myAlertBox');
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].style.display = 'none';
+    }
 }

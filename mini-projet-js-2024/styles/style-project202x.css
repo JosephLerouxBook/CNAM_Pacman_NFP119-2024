@@ -79,3 +79,80 @@ body {
   font-family : sans-serif;
 }
 
+
+
+/*
+
+LE CSS QUE J'AI RAJOUTE (vraiment deja trop de ligne de JS, si je me met a faire mon css avec element.style.x= ca va etre immonde.
+
+
+*/
+/*Alert de victoire*/
+#WinningAlertBox {
+  border-radius: 20px;
+  position: fixed; 
+  top: 50%;
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  background-color: rgba(163, 255, 126, 0.603);
+  height: 125px;
+  width: 500px;
+  border: solid;
+  border-color: rgba(11, 128, 17, 0.404);
+  box-shadow: 3px 3px rgba(26, 92, 0, 0.699);
+  z-index: 99;
+}
+
+#alertHeader {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  margin:0;
+  border-radius: 20px;
+  border: solid; /* Juste pour l'exemple */
+  border-color: rgba(11, 128, 17, 0.3);
+  margin-left: -2px 3px 0 -2px;  
+  width: 99%;
+}
+
+#alertMessage{
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+#alertButton{
+border-radius: 20px;
+background-color: rgba(0, 255, 0, 0.24);
+}
+
+/*Alert d'Erreur */
+#ErrAlertBox {
+  border-radius: 20px;
+  position: fixed; 
+  top: 50%;
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 126, 126, 0.603);
+  height: 125px;
+  width: 500px;
+  border: solid;
+  border-color: rgba(145, 7, 7, 0.404);
+  box-shadow: 3px 3px rgba(92, 0, 0, 0.699);
+  z-index: 99;
+}
+
+#alertHeaderErr {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  margin:0;
+  border-radius: 20px;
+  border: solid; /* Juste pour l'exemple */
+  border-color: rgb(87, 5, 5);
+  margin-left: -2px 3px 0 -2px;  
+  width: 99%;
+}
+
+#alertMessageErr{
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+#alertButtonErr{
+border-radius: 20px;
+background-color: rgba(255, 0, 0, 0.24);
+}
