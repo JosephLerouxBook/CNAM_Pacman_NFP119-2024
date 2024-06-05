@@ -243,7 +243,7 @@ function win(){
 function WinAlertBoxCreator(){
     var alertbox = document.createElement('div');
     alertbox.innerHTML = '<h2 id="alertHeader">Bravo !</h2><p id="alertMessage">Vous avez gagner en : <span id="AlertMinute"></span>\' <span id="AlertSecond"></span>\'\' <span id="AlertTenth"></span> !<br>Félicitation !</p><button onclick="closeMyAlert()" id="alertButton">Fermer</button>';
-    alertbox.id = 'WinningAlertBox';
+    alertbox.id = 'WinningAlertBox'
     alertbox.className = 'myAlertBox';
     alertbox.style.display = 'none';
     document.body.appendChild(alertbox);
@@ -252,7 +252,7 @@ function WinAlertBoxCreator(){
 function ErrAlertBoxCreator(header, msg, displaystate){
     var alertbox = document.createElement('div');
     alertbox.innerHTML = '<h2 id="alertHeaderErr">'+header+'</h2><p id="alertMessageErr">'+msg+'</p><button onclick="closeMyAlert()" id="alertButtonErr">J\'ai compris</button>';
-    alertbox.id = 'ErrAlertBox';
+    alertbox.id = 'ErrAlertBox'
     alertbox.className = 'myAlertBox';
     alertbox.style.display = displaystate;
     document.body.appendChild(alertbox);
